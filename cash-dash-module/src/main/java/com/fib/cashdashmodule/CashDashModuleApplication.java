@@ -24,7 +24,6 @@ public class CashDashModuleApplication implements ApplicationRunner {
 	private void createBanknotesFile() {
 		File file = new File("./banknotes.txt");
 		try (FileWriter writer = new FileWriter(file)) {
-			// Записване на информацията за банкнотите във файла
 			writer.write("Starting Amounts:\n");
 			writer.write("1000 BGN, denomination: 50x10, 10x50\n");
 			writer.write("2000 EUR, denomination: 100x10, 20x50\n");
