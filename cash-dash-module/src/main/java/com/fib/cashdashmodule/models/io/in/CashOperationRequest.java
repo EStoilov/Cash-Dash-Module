@@ -14,6 +14,7 @@ public class CashOperationRequest {
     @NotNull
     @JsonProperty("amount")
     private Double amount;
+
     @NotEmpty
     @JsonProperty("currency")
     private String currency;
