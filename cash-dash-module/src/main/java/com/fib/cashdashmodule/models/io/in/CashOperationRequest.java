@@ -2,8 +2,7 @@ package com.fib.cashdashmodule.models.io.in;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 
 public class CashOperationRequest {
     @NotNull
@@ -11,16 +10,16 @@ public class CashOperationRequest {
     @JsonProperty("cashier")
     private String cashier;
 
-    @NotNull
+    @NotEmpty
     @JsonProperty("amount")
-    private Double amount;
+    private Integer amount;
 
     @NotEmpty
     @JsonProperty("currency")
     private String currency;
 
 
-    public CashOperationRequest(String cashier, Double amount, String currency) {
+    public CashOperationRequest(String cashier, Integer amount, String currency) {
         this.cashier = cashier;
         this.amount = amount;
         this.currency = currency;
@@ -34,11 +33,11 @@ public class CashOperationRequest {
         this.cashier = cashier;
     }
 
-    public Double getAmount() {
+    public Integer getAmount() {
         return amount;
     }
 
-    public void setAmount(Double amount) {
+    public void setAmount(Integer amount) {
         this.amount = amount;
     }
 
