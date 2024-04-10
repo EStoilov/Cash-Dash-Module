@@ -55,4 +55,11 @@ public class FileRepository {
         }
     }
 
+    public void insetFileContent(String fileName, String newLine) {
+        try (FileWriter writer = new FileWriter(fileName, true)) {
+            writer.write(newLine + "\n");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

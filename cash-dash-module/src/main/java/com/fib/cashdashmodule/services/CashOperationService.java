@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+
 @Service
 public class CashOperationService {
 
@@ -32,34 +34,38 @@ public class CashOperationService {
         Integer currentFiftyBanknotesCount;
         switch (request.getCurrency()) {
 
-            case "BGN" :
+            case "BGN":
                 currentSum = Integer.parseInt(fileContent.getAmountBGN());
                 currentTenBanknotesCount = Integer.parseInt(fileContent.getTenBGNBanknoteCount());
                 currentFiftyBanknotesCount = Integer.parseInt(fileContent.getFiftyBGNBanknoteCount());
-                    cashOperationResponse.setMessage(Constants.RESPONSE_MESSAGE_WITHDRAW);
-                    Integer newSumBGN = currentSum + depositSum;
-                    cashOperationResponse.setAmountBGN(String.valueOf(newSumBGN));
-                    Integer newTenBanknotesCountBGN = currentTenBanknotesCount - depositTenBanknotesCount;
-                    Integer newFiftyBanknotesCountBGN = currentFiftyBanknotesCount + depositFiftyBanknotesCount;
-                    updateFileBalance(request, fileContent, depositTenBanknotesCount, depositFiftyBanknotesCount,
-                            currentTenBanknotesCount, currentFiftyBanknotesCount, newSumBGN, Constants.OPERATION_WITHDRAWAL,
-                            newTenBanknotesCountBGN, newFiftyBanknotesCountBGN, Constants.BANKNOTES_FILE_NAME);
+                cashOperationResponse.setMessage(Constants.RESPONSE_MESSAGE_WITHDRAW);
+                Integer newSumBGN = currentSum + depositSum;
+                cashOperationResponse.setAmountBGN(String.valueOf(newSumBGN));
+                Integer newTenBanknotesCountBGN = currentTenBanknotesCount - depositTenBanknotesCount;
+                Integer newFiftyBanknotesCountBGN = currentFiftyBanknotesCount + depositFiftyBanknotesCount;
+                updateFileBalance(request, fileContent, depositTenBanknotesCount, depositFiftyBanknotesCount,
+                        currentTenBanknotesCount, currentFiftyBanknotesCount, newSumBGN, Constants.OPERATION_WITHDRAWAL,
+                        newTenBanknotesCountBGN, newFiftyBanknotesCountBGN, Constants.BANKNOTES_FILE_NAME);
 
-            case "EUR" :
+            case "EUR":
                 currentSum = Integer.parseInt(fileContent.getAmountEUR());
                 currentTenBanknotesCount = Integer.parseInt(fileContent.getTenEURBanknoteCount());
                 currentFiftyBanknotesCount = Integer.parseInt(fileContent.getTenEURBanknoteCount());
-                    cashOperationResponse.setMessage(Constants.RESPONSE_MESSAGE_WITHDRAW);
-                    Integer newSumEUR = currentSum + depositSum;
-                    cashOperationResponse.setAmountEUR(String.valueOf(newSumEUR));
-                    Integer newTenBanknotesCountEUR = currentTenBanknotesCount + depositTenBanknotesCount;
-                    Integer newFiftyBanknotesCountEUR = currentFiftyBanknotesCount - depositFiftyBanknotesCount;
-                    updateFileBalance(request, fileContent, depositTenBanknotesCount, depositFiftyBanknotesCount,
-                            currentTenBanknotesCount, currentFiftyBanknotesCount, newSumEUR, Constants.OPERATION_WITHDRAWAL,
-                            newTenBanknotesCountEUR, newFiftyBanknotesCountEUR, Constants.BANKNOTES_FILE_NAME);
-                }
+                cashOperationResponse.setMessage(Constants.RESPONSE_MESSAGE_WITHDRAW);
+                Integer newSumEUR = currentSum + depositSum;
+                cashOperationResponse.setAmountEUR(String.valueOf(newSumEUR));
+                Integer newTenBanknotesCountEUR = currentTenBanknotesCount + depositTenBanknotesCount;
+                Integer newFiftyBanknotesCountEUR = currentFiftyBanknotesCount - depositFiftyBanknotesCount;
+                updateFileBalance(request, fileContent, depositTenBanknotesCount, depositFiftyBanknotesCount,
+                        currentTenBanknotesCount, currentFiftyBanknotesCount, newSumEUR, Constants.OPERATION_WITHDRAWAL,
+                        newTenBanknotesCountEUR, newFiftyBanknotesCountEUR, Constants.BANKNOTES_FILE_NAME);
+        }
 
-        //TODO write in transaction file this operation
+        //Cashier %s performed a %s operation of %s %s per date %s
+        String transactionInfo = String.format(Constants.TRANSACTIONS_INFORMATION_PATTERN,
+                request.getCashier(), Constants.OPERATION_DEPOSIT, request.getCurrency(), request.getAmount(),
+                LocalDate.now().toString());
+        fileRepository.insetFileContent(Constants.TRANSACTIONS_FILE_NAME, transactionInfo);
         return cashOperationResponse;
     }
 
@@ -81,13 +87,13 @@ public class CashOperationService {
         Integer currentFiftyBanknotesCount;
         switch (request.getCurrency()) {
 
-            case "BGN" :
+            case "BGN":
                 currentSum = Integer.parseInt(fileContent.getAmountBGN());
                 currentTenBanknotesCount = Integer.parseInt(fileContent.getTenBGNBanknoteCount());
                 currentFiftyBanknotesCount = Integer.parseInt(fileContent.getFiftyBGNBanknoteCount());
                 if (withdrawalSum > currentSum || withdrawalTenBanknotesCount > currentTenBanknotesCount || withdrawalFiftyBanknotesCount > currentFiftyBanknotesCount) {
                     cashOperationResponse.setMessage(Constants.RESPONSE_ILLEGAL_OPERATION);
-            } else {
+                } else {
                     cashOperationResponse.setMessage(Constants.RESPONSE_MESSAGE_WITHDRAW);
                     Integer newSum = currentSum - withdrawalSum;
                     cashOperationResponse.setAmountBGN(String.valueOf(newSum));
@@ -97,7 +103,7 @@ public class CashOperationService {
                             currentTenBanknotesCount, currentFiftyBanknotesCount, newSum, Constants.OPERATION_WITHDRAWAL,
                             newTenBanknotesCount, newFiftyBanknotesCount, Constants.BANKNOTES_FILE_NAME);
                 }
-            case "EUR" :
+            case "EUR":
                 currentSum = Integer.parseInt(fileContent.getAmountEUR());
                 currentTenBanknotesCount = Integer.parseInt(fileContent.getTenEURBanknoteCount());
                 currentFiftyBanknotesCount = Integer.parseInt(fileContent.getTenEURBanknoteCount());
@@ -119,20 +125,20 @@ public class CashOperationService {
     private void updateFileBalance(CashOperationRequest request, FileContent fileContent, Integer withdrawalTenBanknotesCount,
                                    Integer withdrawalFiftyBanknotesCount, Integer currentTenBanknotesCount,
                                    Integer currentFiftyBanknotesCount, Integer newSum, String operation,
-                                   Integer newTenBanknotesCount , Integer newFiftyBanknotesCount, String fileName) {
+                                   Integer newTenBanknotesCount, Integer newFiftyBanknotesCount, String fileName) {
 
         String newContent = null;
-            if (request.getCurrency().equals("BGN")) {
+        if (request.getCurrency().equals("BGN")) {
 
-                newContent = String.format("%d %s, denomination: %dx10, %dx50\n%s EUR, denomination: %sx10, %sx50\n",
-                        newSum, request.getCurrency(), newTenBanknotesCount, newFiftyBanknotesCount,
-                        fileContent.getAmountEUR(), fileContent.getTenEURBanknoteCount(), fileContent.getFiftyEURBanknoteCount());
-            } else {
+            newContent = String.format("%d %s, denomination: %dx10, %dx50\n%s EUR, denomination: %sx10, %sx50\n",
+                    newSum, request.getCurrency(), newTenBanknotesCount, newFiftyBanknotesCount,
+                    fileContent.getAmountEUR(), fileContent.getTenEURBanknoteCount(), fileContent.getFiftyEURBanknoteCount());
+        } else {
 
-                newContent = String.format("%s %s, denomination: %sx10, %sx50\n%d EUR, denomination: %dx10, %dx50\n",
-                        fileContent.getAmountBGN(), request.getCurrency(), fileContent.getTenBGNBanknoteCount(),
-                        fileContent.getFiftyBGNBanknoteCount(), newSum, newTenBanknotesCount,  newFiftyBanknotesCount);
-            }
+            newContent = String.format("%s %s, denomination: %sx10, %sx50\n%d EUR, denomination: %dx10, %dx50\n",
+                    fileContent.getAmountBGN(), request.getCurrency(), fileContent.getTenBGNBanknoteCount(),
+                    fileContent.getFiftyBGNBanknoteCount(), newSum, newTenBanknotesCount, newFiftyBanknotesCount);
+        }
         fileRepository.writeToFile(fileName, newContent);
     }
 }
