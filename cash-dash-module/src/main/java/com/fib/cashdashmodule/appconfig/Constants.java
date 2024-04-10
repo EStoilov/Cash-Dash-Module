@@ -5,6 +5,7 @@ public class Constants {
     public static final String BANKNOTES_FILE_NAME = "./banknotes.txt";
     public static final String API_KEY_HEADER = "FIB-X-AUTH";
     public static final String RESPONSE_ERROR_MESSAGE_UNAUTHORIZED = "Unauthorized access";
+    public static final String RESPONSE_ILLEGAL_OPERATION= "Illegal Operation!";
     public static final String RESPONSE_ERROR_MESSAGE_AMOUNT = "Not correct amount";
     public static final String RESPONSE_MESSAGE_DEPOSIT = "Successful deposit!";
     public static final String RESPONSE_MESSAGE_WITHDRAW = "Successful withdrawal!";

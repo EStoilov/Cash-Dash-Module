@@ -13,10 +13,7 @@ public class CashOperationResponse {
     private String amountEUR;
 
 
-    public CashOperationResponse(String message, String amountBGN, String amountEUR) {
-        this.message = message;
-        this.amountBGN = amountBGN;
-        this.amountEUR = amountEUR;
+    public CashOperationResponse() {
     }
 
     public String getMessage() {
@@ -25,5 +22,21 @@ public class CashOperationResponse {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getAmountBGN() {
+        return amountBGN;
+    }
+
+    public void setAmountBGN(String amountBGN) {
+        this.amountBGN = amountBGN;
+    }
+
+    public String getAmountEUR() {
+        return amountEUR;
+    }
+
+    public void setAmountEUR(String amountEUR) {
+        this.amountEUR = amountEUR;
     }
 }

@@ -20,11 +20,38 @@ public class CashOperationRequest {
     @JsonProperty("currency")
     private String currency;
 
+    @NotNull
+    @NotEmpty
+    @JsonProperty("tenBanknoteCount")
+    private String tenBanknoteCount;
 
-    public CashOperationRequest(String cashier, String amount, String currency) {
+    @NotNull
+    @NotEmpty
+    @JsonProperty("fiftyBanknoteCount")
+    private String fiftyBanknoteCount;
+
+    public CashOperationRequest(String cashier, String amount, String currency, String tenBanknoteCount, String fiftyBanknoteCount) {
         this.cashier = cashier;
         this.amount = amount;
         this.currency = currency;
+        this.tenBanknoteCount = tenBanknoteCount;
+        this.fiftyBanknoteCount = fiftyBanknoteCount;
+    }
+
+    public String getTenBanknoteCount() {
+        return tenBanknoteCount;
+    }
+
+    public void setTenBanknoteCount(String tenBanknoteCount) {
+        this.tenBanknoteCount = tenBanknoteCount;
+    }
+
+    public String getFiftyBanknoteCount() {
+        return fiftyBanknoteCount;
+    }
+
+    public void setFiftyBanknoteCount(String fiftyBanknoteCount) {
+        this.fiftyBanknoteCount = fiftyBanknoteCount;
     }
 
     public String getCashier() {

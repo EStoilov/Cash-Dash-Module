@@ -1,7 +1,10 @@
 package com.fib.cashdashmodule.services;
 
 import com.fib.cashdashmodule.models.file.FileContent;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -10,7 +13,8 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@Service
+@Component()
+@Scope("prototype")
 public class FileService {
     public FileContent readFromFile(String fileName) {
         FileContent fileContent = new FileContent();
@@ -31,12 +35,12 @@ public class FileService {
 
                     if (currency.equals("BGN")) {
                         fileContent.setAmountBGN(amount);
-                        fileContent.setTenBGNBanknoteCount(denominationTenValue);
-                        fileContent.setFiftyBGNBanknoteCount(denominationFiftyValue);
+                        fileContent.setTenBGNBanknoteCount(denominationTen);
+                        fileContent.setFiftyBGNBanknoteCount(denominationFifty);
                     } else {
                         fileContent.setAmountEUR(amount);
-                        fileContent.setTenEURBanknoteCount(denominationTenValue);
-                        fileContent.setFiftyEURBanknoteCount(denominationFiftyValue);
+                        fileContent.setTenEURBanknoteCount(denominationTen);
+                        fileContent.setFiftyEURBanknoteCount(denominationFifty);
                     }
                 }
             }

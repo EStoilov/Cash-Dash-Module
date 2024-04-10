@@ -1,7 +1,5 @@
 package com.fib.cashdashmodule.controllers;
 
-import com.fib.cashdashmodule.appconfig.Constants;
-import com.fib.cashdashmodule.models.dtos.WithdrawalDTO;
 import com.fib.cashdashmodule.models.io.in.CashOperationRequest;
 import com.fib.cashdashmodule.models.io.out.CashOperationResponse;
 import com.fib.cashdashmodule.services.CashOperationService;
@@ -29,8 +27,8 @@ public class CashOperationController {
 
     @GetMapping
     public ResponseEntity<CashOperationResponse> withdrawalCashOperation(@Validated @RequestBody CashOperationRequest request) {
-        WithdrawalDTO withdrawalDTO = cashOperationService.withdrawal(request);
-        CashOperationResponse response = new CashOperationResponse(Constants.RESPONSE_MESSAGE_WITHDRAW, withdrawalDTO.getAmountBGN(), withdrawalDTO.getAmountEUR());
+        CashOperationResponse response = cashOperationService.withdrawal(request);
+
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
