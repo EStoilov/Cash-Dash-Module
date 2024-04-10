@@ -7,6 +7,7 @@ import com.fib.cashdashmodule.models.io.out.CashBalanceResponse;
 import com.fib.cashdashmodule.repository.FileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CashBalanceService {
@@ -17,6 +18,7 @@ public class CashBalanceService {
         this.fileRepository = fileRepository;
     }
 
+    @Transactional
     public CashBalanceResponse getBalance(CashBalanceRequest request) {
         CashBalanceResponse response = new CashBalanceResponse();
         FileContent fileContent = fileRepository.readFromFile(Constants.BANKNOTES_FILE_NAME);

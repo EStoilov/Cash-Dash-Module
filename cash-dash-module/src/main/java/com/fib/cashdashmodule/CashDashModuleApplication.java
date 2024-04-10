@@ -7,6 +7,9 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 @SpringBootApplication
 public class CashDashModuleApplication implements ApplicationRunner {
 
@@ -23,5 +26,9 @@ public class CashDashModuleApplication implements ApplicationRunner {
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
 		fileRepository.writeToFile(Constants.BANKNOTES_FILE_NAME, Constants.BANKNOTES_FILE_INIT_CONTENT);
+		LocalDate currentDate = LocalDate.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		String transactionFileContent = String.format(Constants.TRANSACTIONS_FILE_INIT_CONTENT, currentDate.format(formatter).toString());
+		fileRepository.writeToFile(Constants.TRANSACTIONS_FILE_NAME, transactionFileContent);
 	}
 }

@@ -1,13 +1,11 @@
 package com.fib.cashdashmodule.controllers;
 
 import com.fib.cashdashmodule.models.io.in.CashBalanceRequest;
-import com.fib.cashdashmodule.models.io.in.CashOperationRequest;
 import com.fib.cashdashmodule.models.io.out.CashBalanceResponse;
 import com.fib.cashdashmodule.services.CashBalanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
