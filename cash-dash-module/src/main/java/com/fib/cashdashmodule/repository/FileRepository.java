@@ -1,10 +1,7 @@
-package com.fib.cashdashmodule.services;
+package com.fib.cashdashmodule.repository;
 
 import com.fib.cashdashmodule.models.file.FileContent;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Repository;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -13,9 +10,8 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@Component()
-@Scope("prototype")
-public class FileService {
+@Repository
+public class FileRepository {
     public FileContent readFromFile(String fileName) {
         FileContent fileContent = new FileContent();
 

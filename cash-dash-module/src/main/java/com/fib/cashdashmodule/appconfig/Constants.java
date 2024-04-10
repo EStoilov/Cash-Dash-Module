@@ -9,4 +9,6 @@ public class Constants {
     public static final String RESPONSE_ERROR_MESSAGE_AMOUNT = "Not correct amount";
     public static final String RESPONSE_MESSAGE_DEPOSIT = "Successful deposit!";
     public static final String RESPONSE_MESSAGE_WITHDRAW = "Successful withdrawal!";
+    public static final String OPERATION_WITHDRAWAL = "withdrawal";
+    public static final String OPERATION_DEPOSIT = "deposit";
 }

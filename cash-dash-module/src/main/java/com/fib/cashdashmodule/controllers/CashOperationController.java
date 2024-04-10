@@ -20,15 +20,14 @@ public class CashOperationController {
     }
 
     @PostMapping
-    public ResponseEntity<String> depositCashOperation(@Validated @RequestBody CashOperationRequest request) {
-        String message = cashOperationService.deposit(request);
-        return new ResponseEntity<>(message, HttpStatus.OK);
+    public ResponseEntity<CashOperationResponse> depositCashOperation(@Validated @RequestBody CashOperationRequest request) {
+        CashOperationResponse response = cashOperationService.deposit(request);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping
     public ResponseEntity<CashOperationResponse> withdrawalCashOperation(@Validated @RequestBody CashOperationRequest request) {
         CashOperationResponse response = cashOperationService.withdrawal(request);
-
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
